@@ -1,4 +1,3 @@
-
 /// This function takes a separator document, an array of values, and a mapping function, and returns a document
 /// where each value in the array is mapped to a document using the mapping function, and then separated by the separator document.
 ///
@@ -18,7 +17,11 @@
 /// let result = render(separate_map(text(","), [1,2,3], text))
 /// println(result) // output: 1,2,3,4,5
 /// ```
-pub fn separate_map[A](sep : Document, elems : Array[A], f : (A) -> Document) -> Document {
+pub fn separate_map[A](
+  sep : Document,
+  elems : Array[A],
+  f : (A) -> Document
+) -> Document {
   separate(sep, elems.map(f))
 }
 
@@ -65,4 +68,3 @@ pub fn braces(doc : Document) -> Document {
 pub fn string(str : String) -> Document {
   surround(char('"'), char('"'), text(str))
 }
-

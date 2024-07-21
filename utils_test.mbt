@@ -3,8 +3,8 @@ test "pretty array" {
     "aaaaaaaaaaaaaaaa", "bbbbbbbbbbbbbbbbbbbbbb", "1111111111111111222222", "3333333333333333",
     "4444",
   ]
-  inspect(
-    render(ls),
+  inspect!(
+    @prettyprinter.render(ls),
     content=
       #|[
       #|  "aaaaaaaaaaaaaaaa",
@@ -14,7 +14,7 @@ test "pretty array" {
       #|  "4444"
       #|]
     ,
-  )!
+  )
 }
 
 test "pretty map" {
@@ -26,8 +26,8 @@ test "pretty map" {
     "50": None,
   }
   let map = { "aaa": Some(map), "bbb": None, "cc": Some({ "0": None }) }
-  inspect(
-    render(map),
+  inspect!(
+    @prettyprinter.render(map),
     content=
       #|{
       #|  "aaa": Some({
@@ -41,5 +41,5 @@ test "pretty map" {
       #|  "cc": Some({"0": None})
       #|}
     ,
-  )!
+  )
 }

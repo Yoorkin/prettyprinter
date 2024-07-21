@@ -47,9 +47,11 @@ fn requirement(doc : Document) -> Requirement {
     Group(req, _) => req
   }
 }
+
 fn init {
   empty |> render() |> println
 }
+
 /// Empty document.
 /// `render(empty) == ""`
 pub let empty : Document = Empty

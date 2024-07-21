@@ -21,9 +21,7 @@ impl Pretty with to_string(self : Self) -> String {
   render_document(80, self.pretty())
 }
 
-pub impl Pretty for String with pretty(str : String) {
-  string(str)
-}
+pub impl Pretty for String with pretty(str : String) { string(str) }
 
 pub impl Pretty for Bool with pretty(b : Bool) { text(b.to_string()) }
 
@@ -71,9 +69,7 @@ pub impl[A : Pretty, B : Pretty] Pretty for Map[A, B] with pretty(m : Map[A, B])
     fn { (k, v) => group(k.pretty() + char(':') + space + v.pretty()) },
   ).to_array()
   group(
-    char('{') + nest(
-      2,
-      softline + separate(concat(char(','), line), entries),
-    ) + softline + char('}'),
+    char('{') + nest(2, softline + separate(concat(char(','), line), entries)) +
+    softline + char('}'),
   )
 }

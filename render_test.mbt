@@ -1,10 +1,15 @@
 test "pretty group" {
-  let doc = group(text("hello") + nest(2, hardline + text("world")))
-  inspect(
-    Pretty::to_string(doc),
+  let doc = @prettyprinter.group(
+    @prettyprinter.text("hello") + @prettyprinter.nest(
+      2,
+      @prettyprinter.hardline + @prettyprinter.text("world"),
+    ),
+  )
+  inspect!(
+    @prettyprinter.Pretty::to_string(doc),
     content=
       #|hello
       #|  world
     ,
-  )!
+  )
 }
