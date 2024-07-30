@@ -40,7 +40,7 @@ pub fn separate(sep : Document, docs : Array[Document]) -> Document {
   let cat_by_sep = fn(l, r) { concat(l, concat(sep, r)) }
   match docs {
     [] => empty
-    [x, .. as xs] => xs.iter().fold(cat_by_sep, x)
+    [x, .. as xs] => xs.iter().fold(init=x, cat_by_sep)
   }
 }
 
