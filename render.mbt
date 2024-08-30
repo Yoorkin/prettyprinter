@@ -147,7 +147,7 @@ fn render_document(width : Int, doc : Document) -> String {
         aux(indent, flat_mode, l)
         aux(indent, flat_mode, r)
       }
-      Switch(req, l, r) =>
+      Switch(_, l, r) =>
         if flat_mode {
           aux(indent, flat_mode, l)
         } else {
