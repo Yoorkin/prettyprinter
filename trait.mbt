@@ -41,10 +41,10 @@ pub impl Pretty for Document with pretty(doc : Document) { doc }
 
 pub impl[A : Pretty] Pretty for Array[A] with pretty(xs : Array[A]) {
   group(
-    char('[') + nest(
-      2,
-      softline + separate(char(',') + line, xs.map(A::pretty)),
-    ) + softline + char(']'),
+    char('[') +
+    nest(2, softline + separate(char(',') + line, xs.map(A::pretty))) +
+    softline +
+    char(']'),
   )
 }
 
@@ -65,11 +65,14 @@ pub impl[A : Pretty, B : Pretty] Pretty for Result[A, B] with pretty(
 }
 
 pub impl[A : Pretty, B : Pretty] Pretty for Map[A, B] with pretty(m : Map[A, B]) {
-  let entries = m.iter().map(
-    fn { (k, v) => group(k.pretty() + char(':') + space + v.pretty()) },
-  ).to_array()
+  let entries = m
+    .iter()
+    .map(fn { (k, v) => group(k.pretty() + char(':') + space + v.pretty()) })
+    .to_array()
   group(
-    char('{') + nest(2, softline + separate(concat(char(','), line), entries)) +
-    softline + char('}'),
+    char('{') +
+    nest(2, softline + separate(concat(char(','), line), entries)) +
+    softline +
+    char('}'),
   )
 }

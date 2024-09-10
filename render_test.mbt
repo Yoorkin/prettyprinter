@@ -1,6 +1,7 @@
 test "pretty group" {
   let doc = @prettyprinter.group(
-    @prettyprinter.text("hello") + @prettyprinter.nest(
+    @prettyprinter.text("hello") +
+    @prettyprinter.nest(
       2,
       @prettyprinter.hardline + @prettyprinter.text("world"),
     ),

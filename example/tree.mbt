@@ -8,13 +8,14 @@ pub impl[A : @pp.Pretty] @pp.Pretty for Tree[A] with pretty(tree : Tree[A]) {
     Leaf(x) => x.pretty()
     Node(xs) =>
       @pp.group(
-        @pp.text("Node(") + @pp.nest(
+        @pp.text("Node(") +
+        @pp.nest(
           2,
-          @pp.line + @pp.separate(
-            @pp.char(',') + @pp.line,
-            xs.map(@pp.Pretty::pretty),
-          ),
-        ) + @pp.line + @pp.char(')'),
+          @pp.line +
+          @pp.separate(@pp.char(',') + @pp.line, xs.map(@pp.Pretty::pretty)),
+        ) +
+        @pp.line +
+        @pp.char(')'),
       )
   }
 }
