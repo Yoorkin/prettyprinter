@@ -64,14 +64,13 @@ pub let empty : Document = Empty
 /// # Example
 /// 
 /// ```
-/// render(text("hello") + nest(2, hardline + text("world")))
-/// ```
-/// 
-/// output:
-/// 
-/// ```
-/// hello
-///   world
+/// render(text("hello") + nest(hardline + text("world")))
+/// |> inspect!(
+///   content=
+///     #|hello
+///     #|  world
+///   ,
+/// )
 /// ```
 /// 
 pub let hardline : Document = Line
@@ -141,6 +140,11 @@ pub fn op_add(self : Document, other : Document) -> Document {
 ///|
 pub fn to_string(self : Document) -> String {
   render_document(80, self)
+}
+
+///|
+pub impl Show for Document with output(self, buf) {
+  buf.write_string(render_document(80, self))
 }
 
 ///|

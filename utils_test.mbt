@@ -60,7 +60,7 @@ test "json" {
     "key3": [true, false, Null],
   }
   inspect!(
-    render(json),
+    @prettyprinter.render(json),
     content=
       #|{
       #|  "key1": 1,
