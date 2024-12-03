@@ -1,8 +1,10 @@
+///|
 enum Requirement {
   Space(Int)
   Infinite
 }
 
+///|
 fn Requirement::op_add(x : Requirement, y : Requirement) -> Requirement {
   match (x, y) {
     (Space(a), Space(b)) => Space(a + b)
@@ -10,6 +12,7 @@ fn Requirement::op_add(x : Requirement, y : Requirement) -> Requirement {
   }
 }
 
+///|
 fn Requirement::compare(x : Requirement, y : Requirement) -> Int {
   match (x, y) {
     (Space(a), Space(b)) => a - b
@@ -18,6 +21,7 @@ fn Requirement::compare(x : Requirement, y : Requirement) -> Int {
   }
 }
 
+///|
 fn Requirement::op_equal(x : Requirement, y : Requirement) -> Bool {
   match (x, y) {
     (Space(a), Space(b)) => a == b
@@ -26,21 +30,23 @@ fn Requirement::op_equal(x : Requirement, y : Requirement) -> Bool {
   }
 }
 
+///|
 enum Document {
   Empty
   Line
-  Text(Requirement, String)
+  Text(String)
   Concat(Requirement, Document, Document)
   Group(Requirement, Document)
   Switch(Requirement, Document, Document)
   Nest(Requirement, Int, Document)
 }
 
+///|
 fn requirement(doc : Document) -> Requirement {
   match doc {
     Empty => Space(0)
     Line => Infinite
-    Text(_, s) => Space(s.length())
+    Text(s) => Space(s.length())
     Concat(req, _, _) => req
     Switch(req, _, _) => req
     Nest(req, _, _) => req
@@ -48,21 +54,17 @@ fn requirement(doc : Document) -> Requirement {
   }
 }
 
-fn init {
-  empty |> render() |> println
-}
-
-/// Empty document.
+///| Empty document.
 /// `render(empty) == ""`
 pub let empty : Document = Empty
 
-/// Force line break with current indentation.
+///| Force line break with current indentation.
 /// This document will always doesn't fit in the current line.
 /// 
 /// # Example
 /// 
 /// ```
-/// render(text("hello") + nest(2, hardline + text("world"))
+/// render(text("hello") + nest(2, hardline + text("world")))
 /// ```
 /// 
 /// output:
@@ -74,25 +76,27 @@ pub let empty : Document = Empty
 /// 
 pub let hardline : Document = Line
 
-/// Space character.
+///| Space character.
 /// `render(space) == " "`
 pub let space : Document = char(' ')
 
-/// Represents a line break if the line is too long, or nothing if it fits.
+///| Represents a line break if the line is too long, or nothing if it fits.
 pub let softline : Document = switch(empty, line)
 
-/// Represents a line break if the line is too long, or a space if it fits.
+///| Represents a line break if the line is too long, or a space if it fits.
 pub let line : Document = switch(space, hardline)
 
+///|
 pub fn text(s : String) -> Document {
-  Text(Space(s.length()), s)
+  Text(s)
 }
 
+///|
 pub fn char(c : Char) -> Document {
-  Text(Space(1), c.to_string())
+  Text(c.to_string())
 }
 
-/// Concatenate documents.
+///| Concatenate documents.
 pub fn list(ls : Array[Document]) -> Document {
   fn aux {
     ([] : ArrayView[_]) => Empty
@@ -103,43 +107,45 @@ pub fn list(ls : Array[Document]) -> Document {
   aux(ls[:])
 }
 
-/// `group(doc)` tries to render the `doc` on a single line, 
+///| `group(doc)` tries to render the `doc` on a single line, 
 /// but if the `doc` doesn't fit, or contains a `hardline`, all the `switch` 
 /// inside the `doc` will be rendered with the right document.
 pub fn group(doc : Document) -> Document {
   Group(requirement(doc), doc)
 }
 
-/// Switch between two documents based on the available space.
+///| Switch between two documents based on the available space.
 /// The left document represents the flatten mode, and the right one the pretty mode.
 /// If the left document fits, it will be rendered, otherwise the right one.
 pub fn switch(l : Document, r : Document) -> Document {
   Switch(requirement(l), l, r)
 }
 
-/// Nest the document by `n` spaces.
+///| Nest the document by `n` spaces.
 /// Any line breaks inside the nested document will be indented by `n` spaces.
 pub fn nest(n : Int, d : Document) -> Document {
   Nest(requirement(d), n, d)
 }
 
-/// Concatenate two documents.
+///| Concatenate two documents.
 /// You can also use the `+` operator.
 pub fn concat(l : Document, r : Document) -> Document {
   Concat(requirement(l) + requirement(r), l, r)
 }
 
+///|
 pub fn op_add(self : Document, other : Document) -> Document {
   concat(self, other)
 }
 
+///|
 fn render_document(width : Int, doc : Document) -> String {
-  let buf = Buffer::new()
+  let buf = @buffer.new()
   let mut column = 0
   fn aux(indent, flat_mode, doc) {
     match doc {
       Empty => ()
-      Text(_, s) => {
+      Text(s) => {
         buf.write_string(s)
         column += s.length()
       }
@@ -169,5 +175,5 @@ fn render_document(width : Int, doc : Document) -> String {
   }
 
   aux(0, true, doc)
-  buf.to_string()
+  buf.to_unchecked_string()
 }

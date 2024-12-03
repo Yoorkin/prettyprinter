@@ -1,3 +1,4 @@
+///|
 pub impl Pretty for @json.JsonValue with pretty(json : @json.JsonValue) -> Document {
   fn pair(pair : (String, @json.JsonValue)) -> Document {
     string(pair.0) + text(":") + space + Pretty::pretty(pair.1)

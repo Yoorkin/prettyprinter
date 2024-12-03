@@ -1,8 +1,10 @@
+///|
 enum Tree[A] {
   Leaf(A)
   Node(Array[Tree[A]])
 }
 
+///|
 pub impl[A : @pp.Pretty] @pp.Pretty for Tree[A] with pretty(tree : Tree[A]) {
   match tree {
     Leaf(x) => x.pretty()

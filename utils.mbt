@@ -1,4 +1,4 @@
-/// This function takes a separator document, an array of values, and a mapping function, and returns a document
+///| This function takes a separator document, an array of values, and a mapping function, and returns a document
 /// where each value in the array is mapped to a document using the mapping function, and then separated by the separator document.
 ///
 /// # Arguments
@@ -25,7 +25,7 @@ pub fn separate_map[A](
   separate(sep, elems.map(f))
 }
 
-/// This function takes a separator document `sep` and an array of documents `docs` and returns a document
+///| This function takes a separator document `sep` and an array of documents `docs` and returns a document
 /// where each document in the array is separated by the separator document.
 ///
 /// # Example
@@ -44,27 +44,28 @@ pub fn separate(sep : Document, docs : Array[Document]) -> Document {
   }
 }
 
-/// Surrounds the given document with the left and right documents.
+///| Surrounds the given document with the left and right documents.
 /// `surround(l, r, doc)` is equivalent to `l + doc + r`
 pub fn surround(left : Document, right : Document, doc : Document) -> Document {
   left + doc + right
 }
 
-/// `parens(text("doc")) == "(doc)"`
+///| `parens(text("doc")) == "(doc)"`
 pub fn parens(doc : Document) -> Document {
   surround(char('('), char(')'), doc)
 }
 
-/// `brackets(text("doc")) == "[doc]"`
+///| `brackets(text("doc")) == "[doc]"`
 pub fn brackets(doc : Document) -> Document {
   surround(char('['), char(']'), doc)
 }
 
-/// `braces(text("doc")) == "{doc}"`
+///| `braces(text("doc")) == "{doc}"`
 pub fn braces(doc : Document) -> Document {
   surround(char('{'), char('}'), doc)
 }
 
+///|
 pub fn string(str : String) -> Document {
   surround(char('"'), char('"'), text(str))
 }
