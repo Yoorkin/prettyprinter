@@ -69,3 +69,17 @@ pub fn braces(doc : Document) -> Document {
 pub fn string(str : String) -> Document {
   surround(char('"'), char('"'), text(str))
 }
+
+///| Renders a document as a pretty string with a specified width.
+///
+/// # Arguments
+///
+/// * `x` - The document to render.
+/// * `width` - The maximum width of the rendered string. Defaults to 80.
+///
+/// # Returns
+///
+/// The rendered string.
+pub fn render[A : Pretty](document : A, width~ : Int = 80) -> String {
+  render_document(width, document.pretty())
+}

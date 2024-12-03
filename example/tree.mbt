@@ -12,7 +12,6 @@ pub impl[A : @pp.Pretty] @pp.Pretty for Tree[A] with pretty(tree : Tree[A]) {
       @pp.group(
         @pp.text("Node(") +
         @pp.nest(
-          2,
           @pp.line +
           @pp.separate(@pp.char(',') + @pp.line, xs.map(@pp.Pretty::pretty)),
         ) +

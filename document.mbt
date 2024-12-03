@@ -123,8 +123,8 @@ pub fn switch(l : Document, r : Document) -> Document {
 
 ///| Nest the document by `n` spaces.
 /// Any line breaks inside the nested document will be indented by `n` spaces.
-pub fn nest(n : Int, d : Document) -> Document {
-  Nest(requirement(d), n, d)
+pub fn nest(indent~ : Int = 2, doc : Document) -> Document {
+  Nest(requirement(doc), indent, doc)
 }
 
 ///| Concatenate two documents.
@@ -136,6 +136,11 @@ pub fn concat(l : Document, r : Document) -> Document {
 ///|
 pub fn op_add(self : Document, other : Document) -> Document {
   concat(self, other)
+}
+
+///|
+pub fn to_string(self : Document) -> String {
+  render_document(80, self)
 }
 
 ///|

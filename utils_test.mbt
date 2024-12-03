@@ -43,3 +43,38 @@ test "pretty map" {
     ,
   )
 }
+
+test "json" {
+  let json : Json = {
+    "key1": 1.0,
+    "key2": 2099889.0,
+    "key3": 11100991.0,
+    "key4": 20000000.0,
+    "obj": { "a": true, "b": true },
+    "obj2": {
+      "a": true,
+      "b": true,
+      "obj3": { "a": true, "b": true },
+      "obj4": { "a": true, "b": true },
+    },
+    "key3": [true, false, Null],
+  }
+  inspect!(
+    render(json),
+    content=
+      #|{
+      #|  "key1": 1,
+      #|  "key2": 2099889,
+      #|  "key3": [true, false, null],
+      #|  "key4": 20000000,
+      #|  "obj": {"a": true, "b": true},
+      #|  "obj2": {
+      #|    "a": true,
+      #|    "b": true,
+      #|    "obj3": {"a": true, "b": true},
+      #|    "obj4": {"a": true, "b": true}
+      #|  }
+      #|}
+    ,
+  )
+}
